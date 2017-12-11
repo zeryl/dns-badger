@@ -19,9 +19,9 @@ do
 		nohup php enqueue.php >> /tmp/dnsb-enq.log 2>&1 &
 		sleep 30
 		
-		typeset -i max=$(cat maxThroughput)
+		read < maxThroughput
 		i = 1
-		while [ $i -le $max ]; do
+		while [ "$i" -le "$max" ]; do
 			nohup php dequeue.php >> /tmp/dnsb-deq.log 2>&1 &
 			i=$(($i+1))
 		done
