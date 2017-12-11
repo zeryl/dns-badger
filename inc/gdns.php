@@ -27,7 +27,6 @@ function gdnsExecute($domain, $qtype) {
 		}
 		
 		if($json["Status"] != 0) {
-			trigger_error("Detected DNS error response code from GDNS - got " . $json["Status"], E_USER_WARNING);
 			return [false, $json];
 		}
 		
@@ -36,28 +35,28 @@ function gdnsExecute($domain, $qtype) {
 }
 
 function gdnsLooper($domain, $qtype) {
-	$finished = false;
 	$max = 5;
 	$i = 1;
 	
-	while(!$finished && $i <= $max) {
+	while($i <= $max) {
 		$ret = gdnsExecute($domain, $qtype);
 		if($ret[0]) {
 			if(array_key_exists("Answer", $ret[1])) {
 				foreach($ret[1]["Answer"] as $retAns) {
 					$retArr[] = $retAns["data"];
 				}
-			$finished = true;
+			return [true, $retArr];
+			}
+		} elseif(isset($ret[1]["Status"])) {
+			if($ret[1]["Status"] === 3) {
+				return $ret;
+			}
 		}
 		$i = $i + 2;
 		sleep($i);
 	}
-	
-	if($finished) {
-		return [true, $retArr];
-	} else {
-		return $ret;
-	}
+
+	return $ret;
 }
 
 ?>
