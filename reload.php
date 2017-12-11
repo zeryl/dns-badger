@@ -19,15 +19,15 @@ if($getRemoteVer[0]) {
 	$reVersion = intval($getRemoteVer[1]);
 	if($reVersion > $currVersion) {
 		basicWrite(getcwd() . "/status/reload", "1");
-		echo "Initiating upgrade, stopping worker gracefully";
+		echo "Initiating upgrade, stopping worker gracefully\n";
 		
 		while(true) {
 			$rdyEnqueue = intval(basicRead(getcwd() . "/status/enqueue"));
 			$rdyDequeue = intval(basicRead(getcwd() . "/status/dequeue"));
 			
 			if($rdyEnqueue == 1 && $rdyDequeue == 1) {
-				exec("nohup bash >> /tmp/dnsb-init.log 2>&1 &");
-				echo "System restarting";
+				exec("nohup bash init.sh >> /tmp/dnsb-init.log 2>&1 &");
+				echo "System restarting\n";
 				exit;
 			} else {
 				sleep(15);

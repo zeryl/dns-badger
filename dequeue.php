@@ -7,8 +7,10 @@ require_once "inc/fileIO.php";
 $q = new ConcurrentFIFO('fqdns.fifo');
 
 while(true) {
+	sleep(1);
+	
 	$doReload = intval(basicRead(getcwd() . "/status/reload"));
-
+	
 	if($doReload != 0) {
 		basicWrite(getcwd() . "/status/dequeue", "1");
 		exit;
