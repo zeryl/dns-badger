@@ -34,6 +34,7 @@ su -c 'crontab -l | { cat; echo "*/30 * * * * nohup php $PWD/reload.php >> /tmp/
 
 printf " --- Cloning dependencies from GitHub\n"
 su -c 'mkdir $PWD/deps && git clone https://github.com/tweedge/phpqueues $PWD/deps/queues' $user
+su -c 'git clone https://github.com/layershifter/TLDExtract $PWD/deps/tldex' $user
 
 printf " --- Creating extra files/folders/etc\n"
 su -c 'mkdir $PWD/status' $user
