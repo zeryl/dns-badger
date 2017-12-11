@@ -30,6 +30,7 @@ user=$(stat -c '%U' setup.sh)
 printf " --- Updating crontab for '$user'\n"
 
 su -c 'crontab -l | { cat; echo "@reboot nohup bash $PWD/init.sh > /tmp/dnsb-init.log 2>&1 &"; } | crontab -' $user
+su -c 'crontab -l | { cat; echo "*/30 * * * * nohup php $PWD/reload.php > /tmp/dnsb-rld.log 2>&1 &"; } | crontab -' $user
 
 printf " --- Cloning dependencies from GitHub\n"
 su -c 'mkdir $PWD/deps && git clone https://github.com/tweedge/phpqueues $PWD/deps/queues' $user
