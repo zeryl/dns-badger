@@ -15,9 +15,9 @@ do
 		echo "0" > status/reload
 		echo "0" > status/enqueue
 		echo "0" > status/dequeue
-		nohup php enqueue.php > /tmp/dnsb-enq.log 2>&1 &
+		nohup php enqueue.php >> /tmp/dnsb-enq.log 2>&1 &
 		sleep 30
-		nohup php dequeue.php > /tmp/dnsb-deq.log 2>&1 &
+		nohup php dequeue.php >> /tmp/dnsb-deq.log 2>&1 &
 	else
 		sleep 10
 		tryrem=$(( tryrem - 1 ))
