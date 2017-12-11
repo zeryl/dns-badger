@@ -6,15 +6,26 @@ require_once "deps/vendor/autoload.php";
 require_once "inc/fileIO.php";
 
 $q = new ConcurrentFIFO('fqdns.fifo');
+$maxThru = intval(basicRead(getcwd() . "/maxThroughput"));
 
 while(true) {
-	if($q->count() < 
+	if($q->count() < ($maxThru * 30)) {
+		
+	}
+	
 	sleep(1);
 	
 	$doReload = intval(basicRead(getcwd() . "/status/reload"));
 
 	if($doReload != 0) {
-		basicWrite(getcwd() . "/status/enqueue", "1");
-		exit;
+		while(true) {
+			if($q->count() == 0) {
+				sleep(30); // allow dequeues to finish gracefully
+				basicWrite(getcwd() . "/status/enqueue", "1");
+				exit;
+			} else {
+				sleep(10);
+			}
+		}
 	}
 }
