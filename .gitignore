@@ -1,6 +1,7 @@
 # ignore root files
 nodeID
 fqdns.fifo
+maxThroughput
 
 # ignore dependencies
 deps/**
