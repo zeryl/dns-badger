@@ -32,7 +32,7 @@ printf " --- Updating crontab for '$user'\n"
 su -c 'crontab -l | { cat; echo "@reboot nohup bash $PWD/init.sh > /tmp/dnsb-init.log 2>&1 &"; } | crontab -' $user
 
 printf " --- Cloning dependencies from GitHub\n"
-su -c 'mkdir $PWD/deps && git pull https://github.com/tweedge/phpqueues $PWD/deps/queues' $user
+su -c 'mkdir $PWD/deps && git clone https://github.com/tweedge/phpqueues $PWD/deps/queues' $user
 
 printf " --- Generating and writing nodeID\n"
 echo `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1` > nodeID
