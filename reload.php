@@ -1,6 +1,8 @@
 <?php
 /* Version/reload checker, informs other processes to halt */
 
+chdir(dirname(__FILE__));
+
 require_once "inc/fileIO.php";
 require_once "inc/dnstrace.php";
 
