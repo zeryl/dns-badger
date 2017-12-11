@@ -35,6 +35,9 @@ su -c 'crontab -l | { cat; echo "*/30 * * * * nohup php $PWD/reload.php > /tmp/d
 printf " --- Cloning dependencies from GitHub\n"
 su -c 'mkdir $PWD/deps && git clone https://github.com/tweedge/phpqueues $PWD/deps/queues' $user
 
+printf " --- Creating extra files/folders/etc\n"
+su -c 'mkdir $PWD/status' $user
+
 printf " --- Generating and writing nodeID\n"
 echo `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1` > nodeID
 
