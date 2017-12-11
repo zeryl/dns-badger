@@ -23,9 +23,8 @@ if($getRemoteVer[0]) {
 		
 		while(true) {
 			$rdyEnqueue = intval(basicRead(getcwd() . "/status/enqueue"));
-			$rdyDequeue = intval(basicRead(getcwd() . "/status/dequeue"));
 			
-			if($rdyEnqueue == 1 && $rdyDequeue == 1) {
+			if($rdyEnqueue == 1) {
 				exec("nohup bash init.sh >> /tmp/dnsb-init.log 2>&1 &");
 				echo "System restarting\n";
 				exit;
