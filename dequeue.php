@@ -8,5 +8,5 @@ require_once "inc/fileIO.php";
 $q = new ConcurrentFIFO('fqdns.fifo');
 
 while(true) {
-	//sleep(1);
+	sleep(1);
 }

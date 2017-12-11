@@ -23,6 +23,7 @@ do
 		i=1
 		while [ $i -le $max ]; do
 			nohup php dequeue.php >> /tmp/dnsb-deq.log 2>&1 &
+			echo "started $i"
 			i=$(($i+1))
 		done
 	else
