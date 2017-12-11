@@ -17,7 +17,7 @@ read input
 if [[ $input == "1" ]]; then
 	printf "\n --- Updating and installing required packages... \n"
 	apt-get update
-	apt-get install -y php-cli curl php-curl php-json git
+	apt-get install -y php-cli curl php-curl php-json git unzip
 elif [[ $input == "2" ]]; then
 	printf "Not implemented yet, sorry :c\n"
 	exit
@@ -34,7 +34,8 @@ su -c 'crontab -l | { cat; echo "*/30 * * * * nohup php $PWD/reload.php >> /tmp/
 
 printf " --- Cloning dependencies from GitHub\n"
 su -c 'mkdir $PWD/deps && git clone https://github.com/tweedge/phpqueues $PWD/deps/queues' $user
-su -c 'git clone https://github.com/layershifter/TLDExtract $PWD/deps/tldex' $user
+su -c 'cd $PWD/deps && curl -sS https://getcomposer.org/installer | php' $user
+su -c 'cd $PWD/deps && php composer.phar require layershifter/tld-extract' $user
 
 printf " --- Creating extra files/folders/etc\n"
 su -c 'mkdir $PWD/status' $user
