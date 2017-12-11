@@ -21,7 +21,7 @@ do
 		
 		read max < maxThroughput
 		i=1
-		while [ "$i" -le "$max" ]; do
+		while [ $i -le $max ]; do
 			nohup php dequeue.php >> /tmp/dnsb-deq.log 2>&1 &
 			i=$(($i+1))
 		done
