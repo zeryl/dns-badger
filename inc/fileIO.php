@@ -2,7 +2,7 @@
 /* Basic, low-resource file operations */
 
 function basicRead($fileName) {
-	if(!file_exists($fileName)) {
+	if(!file_exists(getcwd() . "/" . $fileName)) {
 		trigger_error("File " . $fileName . " does not exist", E_USER_WARNING);
 		return null;
 	}
