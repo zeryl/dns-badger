@@ -20,7 +20,7 @@ do
 		sleep 30
 		
 		read < maxThroughput
-		i = 1
+		i=1
 		while [ "$i" -le "$max" ]; do
 			nohup php dequeue.php >> /tmp/dnsb-deq.log 2>&1 &
 			i=$(($i+1))
