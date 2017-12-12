@@ -11,4 +11,10 @@ $q = new ConcurrentFIFO('fqdns.fifo');
 
 while(true) {
 	sleep(1);
+	
+	$doReload = intval(basicRead(getcwd() . "/status/reload"));
+	
+	if($doReload != 0 && $q->count() == 0) {
+		exit;
+	}
 }

@@ -21,7 +21,7 @@ while(true) {
 	if($doReload != 0) {
 		while(true) {
 			if($q->count() == 0) {
-				sleep(30); // allow dequeues to finish gracefully
+				sleep(360); // overkill - allow dequeues to finish gracefully
 				basicWrite(getcwd() . "/status/enqueue", "1");
 				exit;
 			} else {
