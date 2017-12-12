@@ -21,12 +21,19 @@ while(true) {
 	if($doReload != 0) {
 		while(true) {
 			if($q->count() == 0) {
-				sleep(360); // overkill - allow dequeues to finish gracefully
-				basicWrite(getcwd() . "/status/enqueue", "1");
-				exit;
-			} else {
-				sleep(10);
+				exec("ps ax", $psOut);
+				$psCtr = 0;
+				foreach($psOut as $process) {
+					if(strpos($process, "php dequeue.php") != false) {
+						$psCtr++;
+					}
+				}
+				if($psCtr == 0) {
+					basicWrite(getcwd() . "/status/enqueue", "1");
+					exit;
+				}
 			}
+			sleep(10);
 		}
 	}
 }
