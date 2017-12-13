@@ -19,7 +19,7 @@ while(true) {
 	$FQDN = $q->dequeue();
 	if($FQDN !== null) {
 		$res = [];
-		$parsedDomain = $ext->parse(json_decode($FQDN));
+		$parsedDomain = $ext->parse(json_decode($FQDN, true));
 		
 		$gdnsResA = gdnsLooper($parsedDomain->getFullHost(), "A");
 		if($gdnsResA[0]) {
