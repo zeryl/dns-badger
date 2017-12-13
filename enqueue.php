@@ -19,10 +19,8 @@ while(true) {
 			if($workReq[0]) {
 				echo "Requested work\n";
 				$completed = true;
-				sleep(2);
-			} else {
-				sleep(5);
 			}
+			sleep(5);
 		}
 		
 		$completed = false;
@@ -32,7 +30,7 @@ while(true) {
 				echo "Got work\n";
 				$completed = true;
 			} else {
-				sleep(2);
+				sleep(5);
 			}
 		}
 		
@@ -47,7 +45,7 @@ while(true) {
 				echo "Confirmed work\n";
 				$completed = true;
 			} else {
-				sleep(2);
+				sleep(5);
 			}
 		}
 	}

@@ -81,7 +81,7 @@ while(true) {
 			if($workSubmit[0]) {
 				$completed = true;
 			} else {
-				sleep(2);
+				sleep(5);
 			}
 		}
 	}
