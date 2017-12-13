@@ -81,7 +81,7 @@ while(true) {
 		
 		$completed = false;
 		while(!$completed) {
-			$workSubmit = dnstWorkSubmit($ID, $parsedRes->getFullHost(), "DNS", json_encode($res));
+			$workSubmit = dnstWorkSubmit($ID, $parsedDomain->getFullHost(), "DNS", json_encode($res));
 			if($workSubmit[0]) {
 				$completed = true;
 			} else {
