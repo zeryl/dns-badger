@@ -16,10 +16,10 @@ $ext = new Extract(null, null, Extract::MODE_ALLOW_ICANN);
 while(true) {
 	sleep(1);
 	
-	$FQDN = $q->dequeue();
+	$FQDN = json_decode($q->dequeue(), true);
 	if($FQDN !== null) {
 		$res = [];
-		$parsedDomain = $ext->parse(json_decode($FQDN, true));
+		$parsedDomain = $ext->parse($FQDN[0]);
 		
 		$gdnsResA = gdnsLooper($parsedDomain->getFullHost(), "A");
 		if($gdnsResA[0]) {
