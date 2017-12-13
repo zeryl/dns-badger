@@ -46,7 +46,7 @@ function dnstWorkReq($key, $num) {
 	if(!$json) {
 		trigger_error("WorkReq: Detected JSON response invalid", E_USER_WARNING);
 		return [false, $response];
-	} elseif(!$json["Success"]) {
+	} elseif(!$json[0]) {
 		trigger_error("WorkReq: System error. Info:" . $json["Reason"], E_USER_WARNING);
 		return [false, $response];
 	} else {
@@ -75,7 +75,7 @@ function dnstWorkGet($key) {
 	if(!$json) {
 		trigger_error("WorkGet: Detected JSON response invalid", E_USER_WARNING);
 		return [false, $response];
-	} elseif(!$json["Success"]) {
+	} elseif(!$json[0]) {
 		trigger_error("WorkGet: System error. Info:" . $json["Reason"], E_USER_WARNING);
 		return [false, $response];
 	} else {
@@ -104,7 +104,7 @@ function dnstWorkConfirm($key) {
 	if(!$json) {
 		trigger_error("WorkConfirm: Detected JSON response invalid", E_USER_WARNING);
 		return [false, $response];
-	} elseif(!$json["Success"]) {
+	} elseif(!$json[0]) {
 		trigger_error("WorkConfirm: System error. Info:" . $json["Reason"], E_USER_WARNING);
 		return [false, $response];
 	} else {
@@ -142,7 +142,7 @@ function dnstWorkSubmit($key, $fqdn, $type, $res) {
 	if(!$json) {
 		trigger_error("WorkSubmit: Detected JSON response invalid", E_USER_WARNING);
 		return [false, $response];
-	} elseif(!$json["Success"]) {
+	} elseif(!$json[0]) {
 		trigger_error("WorkSubmit: System error. Info:" . $json["Reason"], E_USER_WARNING);
 		return [false, $response];
 	} else {

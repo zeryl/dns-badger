@@ -37,17 +37,6 @@ while(true) {
 		foreach($workGet[1]["Todo"] as $FQDN) {
 			$q->enqueue(json_encode($FQDN));
 		}
-		
-		$completed = false;
-		while(!$completed) {
-			$workConfirm = dnstWorkConfirm($ID);
-			if($workConfirm[0]) {
-				echo "Confirmed work\n";
-				$completed = true;
-			} else {
-				sleep(5);
-			}
-		}
 	}
 	
 	sleep(1);
