@@ -55,7 +55,7 @@ function dnstWorkReq($key, $num) {
 }
 
 function dnstWorkGet($key) {
-	$ch = curl_init("https://dnstrace.pro/api/badger/" . $key);
+	$ch = curl_init("https://dnstrace.pro/api/badger_get.php?key=" . $key);
 	
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
