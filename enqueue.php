@@ -7,7 +7,7 @@ require_once "inc/fileIO.php";
 require_once "inc/dnstrace.php";
 
 $q = new ConcurrentFIFO('fqdns.fifo');
-$ID = intval(basicRead(getcwd() . "nodeID"));
+$ID = intval(basicRead(getcwd() . "/nodeID"));
 $maxThru = intval(basicRead(getcwd() . "/maxThroughput"));
 
 while(true) {

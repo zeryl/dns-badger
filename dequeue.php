@@ -74,15 +74,15 @@ while(true) {
 				}
 			}
 		}
-	}
-	
-	$completed = false;
-	while(!$completed) {
-		$workSubmit = dnstWorkSubmit($ID, $FQDN, "DNS", $res);
-		if($workSubmit["Success"]) {
-			$completed = true;
-		} else {
-			sleep(2);
+		
+		$completed = false;
+		while(!$completed) {
+			$workSubmit = dnstWorkSubmit($ID, $FQDN, "DNS", $res);
+			if($workSubmit["Success"]) {
+				$completed = true;
+			} else {
+				sleep(2);
+			}
 		}
 	}
 	
