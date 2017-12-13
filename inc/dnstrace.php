@@ -86,7 +86,7 @@ function dnstWorkGet($key) {
 function dnstWorkSubmit($key, $fqdn, $type, $res) {
 	$ch = curl_init("https://dnstrace.pro/api/badger_submit.php");
 	
-	$data = json_encode(array(
+	$enc = json_encode(array(
 		"key" => $key,
 		"fqdn" => $fqdn,
 		"type" => $type,
