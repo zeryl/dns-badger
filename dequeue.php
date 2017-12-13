@@ -75,6 +75,10 @@ while(true) {
 			}
 		}
 		
+		if(count($res) == 0) {
+			$res[] = array("Q" => "ALL", "R" => "NONE");
+		}
+		
 		$completed = false;
 		while(!$completed) {
 			$workSubmit = dnstWorkSubmit($ID, $FQDN, "DNS", json_encode($res));
