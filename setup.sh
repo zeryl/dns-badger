@@ -67,7 +67,12 @@ if [[ $input == "1" ]]; then
 	apt-get install -y php-cli curl php-curl php-json git unzip
 elif [[ $input == "2" ]]; then
 	printf "\n --- Updating and installing required packages... \n"
-    yum update -y
+    
+	#These are needed to get PHP5.6 
+	rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+	rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
+	
+	yum update -y
     yum install -y php56w-cli curl php56w-common php56w git unzip
 else
 	printf "Input invalid, please restart installer\n"
