@@ -64,7 +64,7 @@ printf " --- Generating and writing nodeID\n"
 echo `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1` > nodeID
 
 printf "\nWe're all set on this end. Thanks for waiting!\n"
-printf "Please email Chris with the following ID:\n"
+printf "Please DM @tweedge on Slack with the following ID:\n"
 printf "  `cat nodeID`\n"
 printf "We'll get your node activated ASAP, and send back your extended API key!\n"
 printf "You'll need to restart before your node starts. Want to do that now? [y/n] "
@@ -75,3 +75,5 @@ if [[ $input == "y" || $input == "Y" ]]; then
 else
 	printf "Don't forget to do that sometime soon! Your node won't run until then.\n"
 fi
+
+printf "REMINDER: SEND KEY ONLY OVER DM. It is a semi-secret key.\n"

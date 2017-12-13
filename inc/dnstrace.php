@@ -25,8 +25,8 @@ function dnstLoadVersion() {
 	}
 }
 
-function dnstWorkReq($key) {
-	$ch = curl_init("https://dnstrace.pro/api/badger_get.php?key=" . $key);
+function dnstWorkReq($key, $num) {
+	$ch = curl_init("https://dnstrace.pro/api/badger_request.php?key=" . $key . "&num=" . $num);
 	
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
@@ -47,7 +47,7 @@ function dnstWorkReq($key) {
 		trigger_error("WorkReq: Detected JSON response invalid", E_USER_WARNING);
 		return [false, $response];
 	} elseif(!$json["Success"]) {
-		trigger_error("WorkReq: Received error", E_USER_WARNING);
+		trigger_error("WorkReq: System error. Info:" . $json["Reason"], E_USER_WARNING);
 		return [false, $response];
 	} else {
 		return [true, $json];
@@ -76,7 +76,36 @@ function dnstWorkGet($key) {
 		trigger_error("WorkGet: Detected JSON response invalid", E_USER_WARNING);
 		return [false, $response];
 	} elseif(!$json["Success"]) {
-		trigger_error("WorkGet: Received error", E_USER_WARNING);
+		trigger_error("WorkGet: System error. Info:" . $json["Reason"], E_USER_WARNING);
+		return [false, $response];
+	} else {
+		return [true, $json];
+	}
+}
+
+function dnstWorkConfirm($key) {
+	$ch = curl_init("https://dnstrace.pro/api/badger_confirm.php?key=" . $key);
+	
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2); 
+	curl_setopt($ch, CURLOPT_TIMEOUT, 4);
+	
+	$response = curl_exec($ch);
+	$err = curl_error($ch);
+	
+	if($err) {
+		trigger_error("WorkConfirm: Detected CURL error", E_USER_WARNING);
+		return [false, $err];
+	}
+	
+	$json = json_decode($response, true);
+		
+	if(!$json) {
+		trigger_error("WorkConfirm: Detected JSON response invalid", E_USER_WARNING);
+		return [false, $response];
+	} elseif(!$json["Success"]) {
+		trigger_error("WorkConfirm: System error. Info:" . $json["Reason"], E_USER_WARNING);
 		return [false, $response];
 	} else {
 		return [true, $json];
@@ -114,7 +143,7 @@ function dnstWorkSubmit($key, $fqdn, $type, $res) {
 		trigger_error("WorkSubmit: Detected JSON response invalid", E_USER_WARNING);
 		return [false, $response];
 	} elseif(!$json["Success"]) {
-		trigger_error("WorkSubmit: Received error", E_USER_WARNING);
+		trigger_error("WorkSubmit: System error. Info:" . $json["Reason"], E_USER_WARNING);
 		return [false, $response];
 	} else {
 		return [true, $json];

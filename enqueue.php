@@ -7,11 +7,46 @@ require_once "inc/fileIO.php";
 require_once "inc/dnstrace.php";
 
 $q = new ConcurrentFIFO('fqdns.fifo');
+$ID = intval(basicRead(getcwd() . "nodeID"));
 $maxThru = intval(basicRead(getcwd() . "/maxThroughput"));
 
 while(true) {
 	if($q->count() < ($maxThru * 30)) {
 		
+		$completed = false;
+		while(!$completed) {
+			$workReq = dnstWorkReq($ID, ($maxThru * 90));
+			if($workReq["Success"]) {
+				$completed = true;
+				sleep(2);
+			} else {
+				sleep(5);
+			}
+		}
+		
+		$completed = false;
+		while(!$completed) {
+			$workGet = dnstWorkGet($ID);
+			if($workGet["Success"]) {
+				$completed = true;
+			} else {
+				sleep(2);
+			}
+		}
+		
+		foreach($FQDN as $workGet[1]["Todo"]) {
+			$q->enqueue(json_encode($FQDN));
+		}
+		
+		$completed = false;
+		while(!$completed) {
+			$workConfirm = dnstWorkConfirm($ID);
+			if($workConfirm["Success"]) {
+				$completed = true;
+			} else {
+				sleep(2);
+			}
+		}
 	}
 	
 	sleep(1);
