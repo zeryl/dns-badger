@@ -86,19 +86,23 @@ function dnstWorkGet($key) {
 function dnstWorkSubmit($key, $fqdn, $type, $res) {
 	$ch = curl_init("https://dnstrace.pro/api/badger_submit.php");
 	
-	$data = http_build_query([
+	$data = json_encode(array(
 		"key" => $key,
 		"fqdn" => $fqdn,
 		"type" => $type,
 		"result" => $res
-	]);
+	));
 	
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2); 
 	curl_setopt($ch, CURLOPT_TIMEOUT, 4);
-	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-	curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $enc);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+		'Content-Type: application/json',
+		'Content-Length: ' . strlen($enc))
+	);
 	
 	$response = curl_exec($ch);
 	$err = curl_error($ch);
