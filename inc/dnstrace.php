@@ -7,7 +7,7 @@
  */
 
 function dnstLoadVersion() {
-	$ch = curl_init("https://dnstrace.pro/api/badger/version/");
+	$ch = curl_init("https://dnstrace.pro/api/badger/version");
 	
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
@@ -18,15 +18,15 @@ function dnstLoadVersion() {
 	$err = curl_error($ch);
 	
 	if($err) {
-		trigger_error("Detected CURL error when querying dnstrace", E_USER_WARNING);
+		trigger_error("LoadVer: Detected CURL error", E_USER_WARNING);
 		return [false, $err];
 	} else {
 		return [true, $response];
 	}
 }
 
-function dnstWorkReq() {
-	$ch = curl_init("https://dnstrace.pro/api/badger_get.php");
+function dnstWorkReq($key) {
+	$ch = curl_init("https://dnstrace.pro/api/badger_get.php?key=" . $key);
 	
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
@@ -37,15 +37,25 @@ function dnstWorkReq() {
 	$err = curl_error($ch);
 	
 	if($err) {
-		trigger_error("Detected CURL error when querying dnstrace", E_USER_WARNING);
+		trigger_error("WorkReq: Detected CURL error", E_USER_WARNING);
 		return [false, $err];
+	}
+	
+	$json = json_decode($response, true);
+		
+	if(!$json) {
+		trigger_error("WorkReq: Detected JSON response invalid", E_USER_WARNING);
+		return [false, $response];
+	} elseif(!$json["Success"]) {
+		trigger_error("WorkReq: Received error", E_USER_WARNING);
+		return [false, $response];
 	} else {
-		return [true, $response];
+		return [true, $json];
 	}
 }
 
-function dnstWorkGet() {
-	$ch = curl_init("https://dnstrace.pro/api/badger/");
+function dnstWorkGet($key) {
+	$ch = curl_init("https://dnstrace.pro/api/badger/" . $key);
 	
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
@@ -56,18 +66,30 @@ function dnstWorkGet() {
 	$err = curl_error($ch);
 	
 	if($err) {
-		trigger_error("Detected CURL error when querying dnstrace", E_USER_WARNING);
+		trigger_error("WorkGet: Detected CURL error", E_USER_WARNING);
 		return [false, $err];
+	}
+	
+	$json = json_decode($response, true);
+		
+	if(!$json) {
+		trigger_error("WorkGet: Detected JSON response invalid", E_USER_WARNING);
+		return [false, $response];
+	} elseif(!$json["Success"]) {
+		trigger_error("WorkGet: Received error", E_USER_WARNING);
+		return [false, $response];
 	} else {
-		return [true, $response];
+		return [true, $json];
 	}
 }
 
-function dnstWorkSubmit($key, $res) {
+function dnstWorkSubmit($key, $fqdn, $type, $res) {
 	$ch = curl_init("https://dnstrace.pro/api/badger_submit.php");
 	
 	$data = http_build_query([
 		"key" => $key,
+		"fqdn" => $fqdn,
+		"type" => $type,
 		"result" => $res
 	]);
 	
@@ -82,9 +104,19 @@ function dnstWorkSubmit($key, $res) {
 	$err = curl_error($ch);
 	
 	if($err) {
-		trigger_error("Detected CURL error when querying dnstrace", E_USER_WARNING);
+		trigger_error("WorkSubmit: Detected CURL error", E_USER_WARNING);
 		return [false, $err];
+	}
+	
+	$json = json_decode($response, true);
+		
+	if(!$json) {
+		trigger_error("WorkSubmit: Detected JSON response invalid", E_USER_WARNING);
+		return [false, $response];
+	} elseif(!$json["Success"]) {
+		trigger_error("WorkSubmit: Received error", E_USER_WARNING);
+		return [false, $response];
 	} else {
-		return [true, $response];
+		return [true, $json];
 	}
 }

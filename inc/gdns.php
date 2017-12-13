@@ -18,13 +18,13 @@ function gdnsExecute($domain, $qtype) {
 	$err = curl_error($ch);
 	
 	if($err) {
-		trigger_error("Detected CURL error when querying GDNS", E_USER_WARNING);
+		trigger_error("GDNS: Detected CURL error", E_USER_WARNING);
 		return [false, $err];
 	} else {
 		$json = json_decode($response, true);
 		
 		if(!$json) {
-			trigger_error("Detected JSON response invalid from GDNS", E_USER_WARNING);
+			trigger_error("GDNS: Detected JSON response invalid", E_USER_WARNING);
 			return [false, $response];
 		}
 		
