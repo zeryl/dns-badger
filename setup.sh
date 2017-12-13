@@ -1,4 +1,9 @@
 #!/bin/bash
+
+#################################################################
+#                        Initial checkup                        #
+#################################################################
+
 if [[ $EUID -ne 0 ]]; then
    printf "This installer must be run as root\n" 
    exit 1
@@ -7,6 +12,10 @@ fi
 printf "\nWelcome to the dns-badger setup!\n"
 printf "Thank you for being part of the dnstrace initiative.\n"
 printf "  With <3 always, Chris\n\n"
+
+#################################################################
+#               Bandwidth and system usage checkup              #
+#################################################################
 
 printf "What is the maximum dns-badger QPS throughput? Any integer [5-95]\n"
 printf "Per QPS, you'll need ~16 MB of RAM. Here are some suggested values:\n"
@@ -26,23 +35,53 @@ else
 	exit
 fi
 
-printf "\nWhat OS are we installing dns-badger on?\n"
-printf " [1] - Debian/Raspbian\n"
-printf " [2] - CentOS\n"
-printf "Selection: "
+#################################################################
+#                       OS detection checkup                    #
+#################################################################
 
-read input
+printf "\nAttempting to automatically detect OS..."
+
+if [ "CentOS" = "$(cat /etc/os-release | grep PRETTY_NAME= -m 1 | cut -d'"' -f2 | cut -d' ' -f1)" ]; then
+        printf "Automatically using Centos from /etc/os-release"
+        input="2"
+elif [ "Debian" = "$(cat /etc/os-release | grep PRETTY_NAME= -m 1| cut -d'"' -f2 | cut -d' ' -f1)" ]; then
+        printf "Automatically using Debian from /etc/os-release"
+        input="1"
+else
+	printf "\nUnable to determine OS...running manual choice !\n\n"
+	printf "\nWhat OS are we installing dns-badger on?\n"
+	printf "Tip : It looks like your OS is \"$(cat /etc/os-release | grep PRETTY_NAME= -m 1| cut -d'"' -f2)\".\n\n"
+	printf " [1] - Debian/Raspbian\n"
+	printf " [2] - CentOS\n"
+	printf "Selection: "
+	read input
+fi
+
+#################################################################
+#                       OS-specific install                     #
+#################################################################
+
 if [[ $input == "1" ]]; then
 	printf "\n --- Updating and installing required packages... \n"
 	apt-get update
 	apt-get install -y php-cli curl php-curl php-json git unzip
 elif [[ $input == "2" ]]; then
-	printf "Not implemented yet, sorry :c\n"
-	exit
+	printf "\n --- Updating and installing required packages... \n"
+    
+	#These are needed to get PHP5.6 
+	rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+	rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
+	
+	yum update -y
+    yum install -y php56w-cli curl php56w-common php56w git unzip
 else
 	printf "Input invalid, please restart installer\n"
 	exit
 fi
+
+#################################################################
+#               Folders and application setup                   #
+#################################################################
 
 user=$(stat -c '%U' setup.sh)
 printf " --- Updating crontab for '$user'\n"
