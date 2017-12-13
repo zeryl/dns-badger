@@ -36,7 +36,7 @@ while(true) {
 			}
 		}
 		
-		foreach($FQDN as $workGet[1]["Todo"]) {
+		foreach($workGet[1]["Todo"] as $FQDN) {
 			$q->enqueue(json_encode($FQDN));
 		}
 		
