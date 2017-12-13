@@ -27,8 +27,10 @@ while(true) {
 		while(!$completed) {
 			$workGet = dnstWorkGet($ID);
 			if($workGet[0]) {
-				echo "Got work\n";
-				$completed = true;
+				if(isset($workGet[1]["Todo"])) {
+					echo "Got work\n";
+					$completed = true;
+				}
 			} else {
 				sleep(5);
 			}
