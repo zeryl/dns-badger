@@ -46,7 +46,7 @@ function dnstWorkReq($key, $num) {
 	if(!$json) {
 		trigger_error("WorkReq: Detected JSON response invalid", E_USER_WARNING);
 		return [false, $response];
-	} elseif(!$json[0]) {
+	} elseif(!$json["Success"]) {
 		trigger_error("WorkReq: System error. Info:" . $json["Reason"], E_USER_WARNING);
 		return [false, $response];
 	} else {
