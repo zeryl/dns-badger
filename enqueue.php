@@ -16,7 +16,7 @@ while(true) {
 		$completed = false;
 		while(!$completed) {
 			$workReq = dnstWorkReq($ID, ($maxThru * 90));
-			if($workReq["Success"]) {
+			if($workReq[0]) {
 				echo "Requested work\n";
 				$completed = true;
 				sleep(2);
@@ -28,7 +28,7 @@ while(true) {
 		$completed = false;
 		while(!$completed) {
 			$workGet = dnstWorkGet($ID);
-			if($workGet["Success"]) {
+			if($workGet[0]) {
 				echo "Got work\n";
 				$completed = true;
 			} else {
@@ -43,7 +43,7 @@ while(true) {
 		$completed = false;
 		while(!$completed) {
 			$workConfirm = dnstWorkConfirm($ID);
-			if($workConfirm["Success"]) {
+			if($workConfirm[0]) {
 				echo "Confirmed work\n";
 				$completed = true;
 			} else {
