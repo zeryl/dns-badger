@@ -8,7 +8,7 @@ require_once "inc/gdns.php";
 require_once "inc/dnstrace.php";
 
 $q = new ConcurrentFIFO('fqdns.fifo');
-$ID = intval(basicRead(getcwd() . "/nodeID"));
+$ID = basicRead(getcwd() . "/nodeID");
 
 use LayerShifter\TLDExtract\Extract;
 $ext = new Extract(null, null, Extract::MODE_ALLOW_ICANN);
