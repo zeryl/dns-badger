@@ -77,7 +77,7 @@ while(true) {
 		
 		$completed = false;
 		while(!$completed) {
-			$workSubmit = dnstWorkSubmit($ID, $FQDN, "DNS", $res);
+			$workSubmit = dnstWorkSubmit($ID, $FQDN, "DNS", json_encode($res));
 			if($workSubmit[0]) {
 				$completed = true;
 			} else {
