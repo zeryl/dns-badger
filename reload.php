@@ -36,4 +36,3 @@ if($getRemoteVer[0]) {
 } else {
 	echo "could not contact dnstrace.pro";
 }
-?>

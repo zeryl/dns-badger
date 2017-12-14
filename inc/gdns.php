@@ -63,5 +63,3 @@ function gdnsLooper($domain, $qtype) {
 
 	return $ret;
 }
-
-?>

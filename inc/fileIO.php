@@ -15,4 +15,3 @@ function basicRead($fileName) {
 function basicWrite($fileName, $data) {
 	file_put_contents($fileName, $data);
 }
-?>
