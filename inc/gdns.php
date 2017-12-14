@@ -44,10 +44,13 @@ function gdnsLooper($domain, $qtype) {
 		$ret = gdnsExecute($domain, $qtype);
 		if($ret[0]) {
 			if(array_key_exists("Answer", $ret[1])) {
+				$retArr = [];
 				foreach($ret[1]["Answer"] as $retAns) {
 					$retArr[] = $retAns["data"];
 				}
-			return [true, $retArr];
+				return [true, $retArr];
+			} else {
+				return [false, "NA"];
 			}
 		} elseif(isset($ret[1]["Status"])) {
 			if($ret[1]["Status"] === 3) {
