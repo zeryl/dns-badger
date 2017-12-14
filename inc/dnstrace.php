@@ -112,6 +112,8 @@ function dnstWorkSubmit($key, $fqdn, $type, $res) {
 		return [false, $err];
 	}
 	
+	var_dump($response);
+	
 	$json = json_decode($response, true);
 		
 	if(!$json) {
