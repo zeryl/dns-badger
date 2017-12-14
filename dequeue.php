@@ -70,7 +70,7 @@ while(true) {
 				$ext = new Extract(null, null, Extract::MODE_ALLOW_ICANN);
 				$parsedRes = $ext->parse(rtrim($rawResult, "."));
 				if($parsedRes->isValidDomain()) {
-					$res[] = array("Q" => "A", "R" => $parsedRes->getFullHost());
+					$res[] = array("Q" => "NS", "R" => $parsedRes->getFullHost());
 				}
 			}
 		}
